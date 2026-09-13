@@ -19,6 +19,7 @@ A secure command-line banking application built with Python and MariaDB. Feature
 - Password confirmation on signup and password change
 - Old password verification before allowing password change
 - Prevention of reusing old password
+- Login attempt restriction (5-minute lockout after 3 failed attempts)
 - Transaction rollback on errors
 - Input validation (minimum 8-character passwords, positive amounts)
 
@@ -72,7 +73,8 @@ CREATE TABLE users (
     account_id VARCHAR(255) PRIMARY KEY,
     account_name VARCHAR(255) NOT NULL,
     account_balance INT DEFAULT 0,
-    account_password VARCHAR(255) NOT NULL
+    account_password VARCHAR(255) NOT NULL,
+    last_failed_login TIMESTAMP NULL
 );
 ```
 
@@ -144,7 +146,7 @@ sr-bank/
 
 ## Security Notes
 
-⚠️ **Important:**
+ **Important:**
 - Never commit `.env` file to version control (it's in `.gitignore`)
 - Use strong passwords (8+ characters minimum)
 - Always use parameterized queries (already implemented)
@@ -184,6 +186,16 @@ bcrypt.checkpw(entered_password.encode('utf-8'), stored_hash)
 5. Hash and store new password
 ```
 
+### Login Attempt Restriction
+```
+1. Check if user was previously restricted
+2. Calculate time since last failed login attempt
+3. If less than 5 minutes have passed → lock account, show remaining time
+4. If 5+ minutes have passed → allow new login attempts
+5. After 3 consecutive failed attempts → lock account for 5 minutes
+6. On successful login → reset restriction timer
+```
+
 ## Learning Outcomes
 
 This project demonstrates:
@@ -194,18 +206,6 @@ This project demonstrates:
 - Input validation and error handling
 - State management in CLI applications
 - MySQL/MariaDB operations with Python
-
-## Future Improvements
-
-- [ ] Add transaction history with timestamps
-- [ ] Implement login rate limiting
-- [ ] Add comprehensive logging system
-- [ ] Implement two-factor authentication (2FA)
-- [ ] Add unit tests and integration tests
-- [ ] Create REST API endpoints
-- [ ] Add email verification on signup
-- [ ] Implement account recovery system
-- [ ] Add deposit/withdrawal functionality
 
 ## Troubleshooting
 
