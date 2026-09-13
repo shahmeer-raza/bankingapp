@@ -21,9 +21,9 @@ A secure command-line banking application built with Python and MySQL. Features 
 
 ## Requirements
 
-- Python 3.7+
-- MySQL Server
-- Dependencies: `bcrypt`, `mysql-connector-python`, `python-dotenv`
+- Python 3.14.7+
+- MariaDB 12.3.3+ or MySQL 8.0+
+- Dependencies: `bcrypt 5.0.0`, `mysql-connector-python 26.7.0`, `python-dotenv 1.2.3`
 
 ## Installation
 
