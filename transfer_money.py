@@ -1,5 +1,5 @@
 from os import system
-from user_mgmt import get_user_balance, user_exists, transfer_balance
+from user_mgmt import get_user_balance, user_exists, transfer_balance, get_user_from_id
 
 
 def transfer_money(user_id):
@@ -23,8 +23,10 @@ def transfer_money(user_id):
         print("Insufficient balance!")
         return False
     else:
-        return transfer_balance(amount, recipient_id, user_id)
-    
-
-
-# transfer_money(7807016038733695)
+        recipient = get_user_from_id(recipient_id)
+        print(f'Transferring {amount}$ to {recipient}')
+        confirm = input("Type yes to confirm").strip().lower()
+        if confirm == 'yes':
+            return transfer_balance(amount, recipient_id, user_id)
+        else:
+            return False
