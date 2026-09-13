@@ -9,7 +9,7 @@ def login_page():
         entered_password = input("Enter your password: ").strip()
         stored_password = get_user_password(entered_id)
 
-        if bcrypt.checkpw(entered_password.encode(), stored_password.encode('utf-8')):
+        if bcrypt.checkpw(entered_password.encode('utf-8'), stored_password.encode('utf-8')):
             return True, entered_id
         return False, None
     else:

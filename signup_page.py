@@ -37,8 +37,7 @@ def sign_up():
         return False
 
     # hashing the password
-    hashed_encoded_password = bcrypt.hashpw(user_password.encode(), bcrypt.gensalt())
-    hashed_password = hashed_encoded_password.decode()
+    hashed_password = bcrypt.hashpw(user_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     # generating account id for user
     while True:
