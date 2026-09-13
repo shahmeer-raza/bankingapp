@@ -39,13 +39,19 @@ while True:
 
     elif choice == 2:
         system("clear")
-        result, logged_in_id = login_page()
-        if result:
+        result, logged_in_id, minutes_remaining = login_page()
+        if result is True:
             system("clear")
             print("Logged In!")
             sleep(1.5)
             system("clear")
             dashboard(logged_in_id)
+        elif result == 'restricted':
+            seconds_remaining = minutes_remaining*60
+            minutes = int(seconds_remaining // 60)
+            seconds = int(seconds_remaining % 60)
+            print(f"Max login attempt reached, wait for {minutes}:{seconds} minutes to try again!")
+            sleep(2)
         elif result is None:
             print("User does not exist!")
             sleep(1.5)

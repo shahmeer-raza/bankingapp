@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from dotenv import load_dotenv
 from os import getenv
 import mysql.connector
@@ -34,7 +36,7 @@ def user_exists(entered_id):
     return True
 
 
-def get_user_password(entered_id):
+def get_user_password(entered_id) -> str:
     cursor = conn.cursor()
     cursor.execute(
         "select account_password from users where account_id = %s", (entered_id,)
@@ -87,3 +89,16 @@ def update_password(new_password, user_id):
     cursor.execute('update users set account_password = %s where account_id = %s', (new_password, user_id))
     conn.commit()
     cursor.close()
+
+def restrict_user(user_id):
+    cursor = conn.cursor()
+    cursor.execute('update users set last_restricted = now() where account_id = %s', (user_id,))
+    conn.commit()
+    cursor.close()
+
+def get_last_restricted_time(user_id) ->datetime:
+    cursor = conn.cursor()
+    cursor.execute('select last_restricted from users where account_id = %s', (user_id,))
+    result = cursor.fetchone()[0]
+    cursor.close()
+    return result
