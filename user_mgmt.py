@@ -81,3 +81,9 @@ def transfer_balance(amount, recipient_id, sender_id):
         return False
     cursor.close()
     return True
+
+def update_password(new_password, user_id):
+    cursor = conn.cursor()
+    cursor.execute('update users set account_password = %s where account_id = %s', (new_password, user_id))
+    conn.commit()
+    cursor.close()
