@@ -34,7 +34,7 @@ def sign_up():
             print("Wrong password try again!")
     else:
         print("Password confirmation failed!")
-        return False
+        return False, None
 
     # hashing the password
     hashed_password = bcrypt.hashpw(user_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')

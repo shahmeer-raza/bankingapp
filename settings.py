@@ -18,20 +18,28 @@ def get_new_password(user_old_password):
 
     while True:
         # getting new password from user
-        system("clear")
-        new_pass = input("Enter your new password: ")
-        if not new_pass:
-            print("This field cannot be empty!")
-            sleep(1.5)
-            continue
-        elif len(new_pass) < 8:
-            print("password must be 8 character long!")
-            sleep(1.5)
-            continue
-        elif bcrypt.checkpw(new_pass.encode('utf-8'), user_old_password.encode('utf-8')):
-            print("Your old password cannot be your new password!")
-            sleep(1.5)
-            continue
+        for i in range(3):
+            new_pass = input("Enter your new password: ")
+            if not new_pass:
+                if i< 2:
+                    print("This field cannot be empty!")
+                    continue
+                else:
+                    return None
+            elif len(new_pass) < 8:
+                if i < 2:
+                    print("password must be 8 character long!")
+                    continue
+                else:
+                    return None
+            elif bcrypt.checkpw(new_pass.encode('utf-8'), user_old_password.encode('utf-8')):
+                if i < 2:
+                    print("Your old password cannot be your new password!")
+                    continue
+                else: 
+                    return None
+            else:
+                break
 
         # confirming password from user
         for i in range(3):
@@ -42,8 +50,8 @@ def get_new_password(user_old_password):
                 ).decode('utf-8')
             elif i < 2:
                 print("Password did not match! Try again")
-        return None
-
+                continue
+            return None
 
 def settings_menu(user_id, user_old_password):
     while True:
@@ -63,6 +71,7 @@ def settings_menu(user_id, user_old_password):
         elif choice == 1:
             new_password = get_new_password(user_old_password)
             if new_password is None:
+                system("clear")
                 print("Request Failed!")
                 sleep(1.5)
             else:
